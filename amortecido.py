@@ -1,64 +1,43 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import lmfit
-from scipy.optimize import curve_fit
+T1 = [0.065, 0.069, 0.075]
+T2 = [0.088, 0.130, 0.135]
+T3 = [0.136, 0.152, 0.164]
 
-v, i = np.loadtxt('led').T
+X1 = [7,13,19]
+X2 = [25, 31, 37]
+X3 = [43,49,55]
 
-v[:15] *= 1.041
-i[:15] *= 2.003
-v[-3] += .06
-i[-3] += 0
-v[-1] -= 0.008
+reg1 = lmfit.models.LinearModel(['x'])
+reg2 = lmfit.models.LinearModel(['x'])
+reg3 = lmfit.models.LinearModel(['x'])
 
-print(v)
-print(i)
+result1 = reg1.fit(T1, x=X1)
+result2 = reg2.fit(T2, x=X2)
+result3 = reg3.fit(T3, x=X3)
 
-lampOhm = lambda V,Io,b: Io*np.e**(b*V)
-
-lmodel = lmfit.Model(lampOhm)
-
-params = lmodel.make_params(Io=1.49e-11,b=13.4)
-
-result = lmodel.fit(i, params, V=v)
-
-print(result.fit_report())
+#print(result.fit_report())
 
 #print("a = {0} +- {2} b = {1} +- {3}" .format(*params,*np.sqrt(np.diag(pcov))))
 
-plt.plot(v,result.best_fit,'-',label=r'$i_oe^{\frac{e}{k_bT}v}$',linewidth=1.8,color='#adadad',zorder=0)
+#plt.plot(v,result.best_fit,'-',label=r'$i_oe^{\frac{e}{k_bT}v}$',linewidth=1.8,color='#adadad',zorder=0)
 
-plt.rcParams.update({'font.size': 10})
+plt.scatter(X1, T1, color='#212121', s=25,zorder=5)
+plt.scatter(X2, T2, color='#212121', s=25,zorder=5)
+plt.scatter(X3, T3, color='#212121', s=25,zorder=5)
+plt.plot(X1,result1.best_fit,'-.',label='Região 1',linewidth=1.8,color='#adadad',zorder=0)
+plt.plot(X2,result2.best_fit,'--',label='Região 2',linewidth=1.8,color='#adadad',zorder=0)
+plt.plot(X3,result3.best_fit,':',label='Região 3',linewidth=1.8,color='#adadad',zorder=0)
 
-plt.scatter(v,i, label='Dados', color='#212121', s=25,zorder=5)
 
-plt.xlabel(r'Potencial (V)',fontsize=10)
-plt.ylabel(r'Corrente (mA)',fontsize=10)
-plt.title(r'LED',fontsize=15)
+plt.xlabel(r'Comprimento $(cm)$',fontsize=10)
+plt.ylabel(r'Tensão $(V)$',fontsize=10)
+plt.title(r'Fita de Alumínio',fontsize=15)
 #plt.figtext(.5,.930,'Resistor 1', fontsize=18, ha='center')
-
-
-
 #plt.figtext(.30,.266,r"$i_o = 6.4\cdot 10^{-06} \pm 0.4\cdot 10^{-06}$",fontsize=10,ha='center')
 #plt.figtext(.30,.223,r"$\frac{e}{k_bT} = 21.12 \pm 0.07$",fontsize=10,ha='center')
 plt.legend()
 
-plt.savefig('led.pdf')
+plt.savefig('fita.png')
 plt.show()
-
-'''
-#plt.savefig('amortecido.pdf')
-plt.show()
-
-plt.figure()
-
-plt.plot(tm,yd/ym[0],label=r'$e^{-\gamma t}$')
-plt.scatter(tm,abs(ym/ym[0]),label=r'$|A_i/A_o|$')
-plt.yscale("log")
-plt.xlabel(r'tempo (s)',fontsize=10)
-plt.ylabel(r'posição (m)',fontsize=10)
-plt.title('Amplitude normalizada',fontsize=15)
-plt.legend()
-plt.savefig('amortecidolog.pdf')
-plt.show()
-'''

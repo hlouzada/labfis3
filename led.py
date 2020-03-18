@@ -1,17 +1,24 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import lmfit
+from scipy.optimize import curve_fit
 
-v, i = np.loadtxt('diodo').T
+v, i = np.loadtxt('led').T
+
+v[:15] *= 1.041
+i[:15] *= 2.003
+v[-3] += .06
+i[-3] += 0
+v[-1] -= 0.008
 
 print(v)
 print(i)
 
-lampOhm = lambda V,Io,b,T: Io*np.e**(b*V)
+lampOhm = lambda V,Io,b: Io*np.e**(b*V)
 
 lmodel = lmfit.Model(lampOhm)
 
-params = lmodel.make_params(Io=5.73*10**-6,b=21.3)
+params = lmodel.make_params(Io=1.49e-11,b=13.4)
 
 result = lmodel.fit(i, params, V=v)
 
@@ -25,18 +32,18 @@ plt.rcParams.update({'font.size': 10})
 
 plt.scatter(v,i, label='Dados', color='#212121', s=25,zorder=5)
 
-plt.xlabel(r'Tensão $(V)$',fontsize=10)
+plt.xlabel(r'Potencial $(V)$',fontsize=10)
 plt.ylabel(r'Corrente $(mA)$',fontsize=10)
-plt.title(r'Diodo',fontsize=15)
+plt.title(r'LED',fontsize=15)
 #plt.figtext(.5,.930,'Resistor 1', fontsize=18, ha='center')
 
 
 
-plt.figtext(.30,.266,r"$i_o = 6.4\cdot 10^{-06} \pm 0.4\cdot 10^{-06} \,\,A$",fontsize=10,ha='center')
-plt.figtext(.30,.223,r"$\frac{e}{k_bT} = 21.12 \pm 0.07 \,\,CJK^{-1}$",fontsize=10,ha='center')
+#plt.figtext(.30,.266,r"$i_o = 6.4\cdot 10^{-06} \pm 0.4\cdot 10^{-06}$",fontsize=10,ha='center')
+#plt.figtext(.30,.223,r"$\frac{e}{k_bT} = 21.12 \pm 0.07$",fontsize=10,ha='center')
 plt.legend()
 
-plt.savefig('diodo.png')
+plt.savefig('led.png')
 plt.show()
 
 '''

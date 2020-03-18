@@ -24,19 +24,19 @@ vf = leiohm(i,*params)
 
 plt.plot(i,vf,'-',label=r'$Ri+V_o$',linewidth=1.8,color='#adadad',zorder=0)
 
-plt.ylabel(r'Tensão (V)',fontsize=10)
-plt.xlabel(r'Corrente (mA)',fontsize=10)
+plt.ylabel(r'Tensão $(V)$',fontsize=10)
+plt.xlabel(r'Corrente $(mA)$',fontsize=10)
 plt.title(r'Resistor',fontsize=15)
 #plt.figtext(.5,.930,'Resistor 1', fontsize=18, ha='center')
 plt.figtext(.75,.196,r"$R = 0.9879 \pm 0.0006 \,\,k\Omega$",fontsize=10,ha='center')
 plt.figtext(.75,.153,r"$V_o = 0.0018 \pm 0.0003 \,\,V$",fontsize=10,ha='center')
 plt.legend()
 
-plt.savefig('resistor1.pdf')
+plt.savefig('resistor1.png')
 plt.show()
 
 '''
-#plt.savefig('amortecido.pdf')
+#plt.savefig('amortecido.png')
 plt.show()
 
 plt.figure()
@@ -48,6 +48,6 @@ plt.xlabel(r'tempo (s)',fontsize=10)
 plt.ylabel(r'posição (m)',fontsize=10)
 plt.title('Amplitude normalizada',fontsize=15)
 plt.legend()
-plt.savefig('amortecidolog.pdf')
+plt.savefig('amortecidolog.png')
 plt.show()
 '''
