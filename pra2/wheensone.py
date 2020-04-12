@@ -33,8 +33,8 @@ Vga = labfloat(0)
 R4V0 = R3a*((1/(R2a/(R1a+R2a)-Vga/Va)) - 1)
 
 print()
-print(R4V0)
-#print("R_4 for Vg = 0: {0}".format(R4V0))
+
+print("R_4 for Vg = 0: {0}".format(R4V0))
 
 plt.plot(r4, result.best_fit,'-',label=r'$(\frac{R_2}{R_1+R_2}-\frac{R_3}{R_3+R_4})\,V$',linewidth=1.8,color='#adadad',zorder=0)
 
