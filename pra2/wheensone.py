@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import lmfit
+from labfis import labfloat
 
 r4, v = np.loadtxt('ponte').T
 
@@ -23,17 +24,17 @@ coefs = res[res.find("[[Variables]]")+13:res.find("[[Correlations]]")].split("\n
 
 coefs = [coef.split() for coef in coefs]
 
-Va = float(coefs[3][1])
-R3a = float(coefs[2][1])
-R2a = float(coefs[1][1])
-R1a = float(coefs[0][1])
-Vga = 0
+Va = labfloat(float(coefs[3][1]),float(coefs[3][3]))
+R3a = labfloat(float(coefs[2][1]),float(coefs[2][3]))
+R2a = labfloat(float(coefs[1][1]),float(coefs[1][3]))
+R1a = labfloat(float(coefs[0][1]),float(coefs[0][3]))
+Vga = labfloat(0)
 
 R4V0 = R3a*((1/(R2a/(R1a+R2a)-Vga/Va)) - 1)
 
-print("R_4 for Vg = 0: {0}".format(R4V0))
-
-#print("a = {0} +- {2} b = {1} +- {3}" .format(*params,*np.sqrt(np.diag(pcov))))
+print()
+print(R4V0)
+#print("R_4 for Vg = 0: {0}".format(R4V0))
 
 plt.plot(r4, result.best_fit,'-',label=r'$(\frac{R_2}{R_1+R_2}-\frac{R_3}{R_3+R_4})\,V$',linewidth=1.8,color='#adadad',zorder=0)
 
