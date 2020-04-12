@@ -36,5 +36,5 @@ plt.title(r'Ponte de Wheastone',fontsize=15)
 #plt.figtext(.30,.223,r"$\frac{e}{k_bT} = 21.12 \pm 0.07 \,\,CJK^{-1}$",fontsize=10,ha='center')
 plt.legend()
 
-#plt.savefig('diodo.png')
+plt.savefig('ponte.png')
 plt.show()
