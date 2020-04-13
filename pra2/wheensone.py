@@ -8,11 +8,11 @@ r4, vg = np.loadtxt('ponte').T
 print(r4)
 print(vg)
 
-ponte = lambda R4,R1,R2,R3,V: (R2/(R1+R2)-R3/(R3+R4))*V
+ponte = lambda R4,ar,R3,V: (ar-R3/(R3+R4))*V
 
 pmodel = lmfit.Model(ponte)
 
-params = pmodel.make_params(R1=150,R2=323,R3=222,V=10)
+params = pmodel.make_params(ar=0.7,R3=222,V=10)
 
 result = pmodel.fit(vg, params, R4=r4)
 
@@ -24,13 +24,12 @@ coefs = res[res.find("[[Variables]]")+13:res.find("[[Correlations]]")].split("\n
 
 coefs = [coef.split() for coef in coefs]
 
-Va = labfloat(float(coefs[3][1]),float(coefs[3][3]))
-R3a = labfloat(float(coefs[2][1]),float(coefs[2][3]))
-R2a = labfloat(float(coefs[1][1]),float(coefs[1][3]))
-R1a = labfloat(float(coefs[0][1]),float(coefs[0][3]))
+Va = labfloat(float(coefs[2][1]),float(coefs[2][3]))
+R3a = labfloat(float(coefs[1][1]),float(coefs[1][3]))
+Ar = labfloat(float(coefs[0][1]),float(coefs[0][3]))
 Vga = labfloat(0)
 
-R4V0 = R3a*((1/(R2a/(R1a+R2a)-Vga/Va)) - 1)
+R4V0 = R3a*((1/(Ar-Vga/Va)) - 1)
 
 su = "%.16f" % R4V0.uncertainty
 i = su.find(".")
@@ -52,7 +51,7 @@ print()
 print("R_4 for Vg = 0: ({:g} ± {:g})".format(R4V0.mean,u))
 
 u = "{:g}".format(u).split("e")
-R4V0 = "({:g}".format(R4V0.mean)+"\pm "+u[0]+"\cdot 10^"+"{"+u[1]+"})"
+R4V0 = "({:g}".format(R4V0.mean)+"\pm "+u[0]+")"
 
 plt.plot(r4, result.best_fit,'-',label=r'$(\frac{R_2}{R_1+R_2}-\frac{R_3}{R_3+R_4})\,V$',linewidth=1.8,color='#adadad',zorder=0)
 
