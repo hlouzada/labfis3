@@ -31,23 +31,6 @@ Vga = labfloat(0)
 
 R4V0 = R3a*((1/(Ar-Vga/Va)) - 1)
 
-'''
-su = "%.16f" % R4V0.uncertainty
-i = su.find(".")
-if i == -1:
-    r = - len(su) + 1
-    u = round(R4V0.uncertainty, r)
-else:
-    r = -i
-    r += 1
-    for digit in su:
-        if digit == "0":
-            r += 1
-        elif digit != ".":
-            u = round(R4V0.uncertainty, r)
-u = round(R4V0.uncertainty, r)
-'''
-
 print()
 
 print("R_4 for Vg = 0: {0}".format(R4V0))
@@ -55,22 +38,25 @@ print("R_4 for Vg = 0: {0}".format(R4V0))
 #u = "{:g}".format(u).split("e")
 
 #R4V0 = "({:g}".format(R4V0.mean)+"\pm "+u[0]+")"
-R4V0 = "(" + "\pm".join(R4V0.split()) + ")"
+R4V0 = "("+"\pm".join(R4V0.split())+")"
 
-plt.plot(r4, result.best_fit,'-',label=r'$(\frac{R_2}{R_1+R_2}-\frac{R_3}{R_3+R_4})\,V$',linewidth=1.8,color='#adadad',zorder=0)
+xs = np.linspace(50,400,200)
+ys =  [ponte(xs[j],float(coefs[0][1]),float(coefs[1][1]),float(coefs[2][1])) for j in range(len(xs))]
+
+plt.plot(xs, ys,'-',label=r'$(\frac{R_2}{R_1+R_2}-\frac{R_3}{R_3+R_x})\,V$',linewidth=1.8,color='#adadad',zorder=0)
 
 plt.rcParams.update({'font.size': 10})
 
 plt.scatter(r4, vg, label='Dados', color='#212121', s=25,zorder=5)
 
-plt.xlabel(r'$R_4\,(\Omega)$',fontsize=10)
+plt.xlabel(r'$R_x\,(\Omega)$',fontsize=10)
 plt.ylabel(r'$V_G\,(V)$',fontsize=10)
-plt.title(r'Ponte de Wheastone',fontsize=15)
+plt.title(r'Ponte de Wheatstone',fontsize=15)
 #plt.figtext(.5,.930,'Resistor 1', fontsize=18, ha='center')
 
 
 
-eval("plt.figtext(.665,.176,r'$V_G = 0 \, V \Rightarrow R_4 = "+R4V0+"\, \Omega$',fontsize=10,ha='center')")
+eval("plt.figtext(.665,.176,r'$V_G = 0 \, V \Rightarrow R_x = "+R4V0+"\, \Omega$',fontsize=10,ha='center')")
 #plt.figtext(.30,.223,r"$\frac{e}{k_bT} = 21.12 \pm 0.07 \,\,CJK^{-1}$",fontsize=10,ha='center')
 plt.legend()
 
