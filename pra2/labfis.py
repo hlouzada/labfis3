@@ -8,31 +8,35 @@ class labfloat:
         self.mean = float(mean)
         self.uncertainty = float(abs(uncertainty))
 
+    def format(self):
+        su = "%.16f" % self.uncertainty
+        i = su.find(".")
+        if i == -1:
+            r = - len(su) + 1
+            m = round(self.mean, r)
+            u = round(self.uncertainty, r)
+            return([m,u])
+        else:
+            r = -i
+            r += 1
+            for digit in su:
+                if digit == "0":
+                    r += 1
+                elif digit != ".":
+                    m = round(self.mean, r)
+                    u = round(self.uncertainty, r)
+                    return([m,u])
+
+        m = round(self.mean, r)
+        u = round(self.uncertainty, r)
+        return([m,u])
+
     def __str__(self):
         if self.uncertainty == 0:
             return("{:g}".format(self.mean))
         else:
-            su = "%.16f" % self.uncertainty
-            i = su.find(".")
-            if i == -1:
-                r = - len(su) + 1
-                m = round(self.mean, r)
-                u = round(self.uncertainty, r)
-                return("({:g} ± {:g})".format(m, u))
-            else:
-                r = -i
-                r += 1
-                for digit in su:
-                    if digit == "0":
-                        r += 1
-                    elif digit != ".":
-                        m = round(self.mean, r)
-                        u = round(self.uncertainty, r)
-                        return("({:g} ± {:g})".format(m, u))
-
-        m = round(self.mean, r)
-        u = round(self.uncertainty, r)
-        return("({:g} ± {:g})".format(m, u))
+            m, u = self.format()
+            return("({:g} ± {:g})".format(m, u))
 
     def __pos__(self):
         return self
@@ -183,3 +187,10 @@ class labfloat:
 
     def __hex__(self):
         return hex(self.mean)
+
+    def split(self):
+        if self.uncertainty == 0:
+            return(["{:g}".format(self.mean)])
+        else:
+            m, u = self.format()
+            return(["{:g}".format(m),"{:g}".format(u)])

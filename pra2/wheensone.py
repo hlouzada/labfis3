@@ -31,6 +31,7 @@ Vga = labfloat(0)
 
 R4V0 = R3a*((1/(Ar-Vga/Va)) - 1)
 
+'''
 su = "%.16f" % R4V0.uncertainty
 i = su.find(".")
 if i == -1:
@@ -45,13 +46,16 @@ else:
         elif digit != ".":
             u = round(R4V0.uncertainty, r)
 u = round(R4V0.uncertainty, r)
+'''
 
 print()
 
-print("R_4 for Vg = 0: ({:g} ± {:g})".format(R4V0.mean,u))
+print("R_4 for Vg = 0: {0}".format(R4V0))
 
-u = "{:g}".format(u).split("e")
-R4V0 = "({:g}".format(R4V0.mean)+"\pm "+u[0]+")"
+#u = "{:g}".format(u).split("e")
+
+#R4V0 = "({:g}".format(R4V0.mean)+"\pm "+u[0]+")"
+R4V0 = "(" + "\pm".join(R4V0.split()) + ")"
 
 plt.plot(r4, result.best_fit,'-',label=r'$(\frac{R_2}{R_1+R_2}-\frac{R_3}{R_3+R_4})\,V$',linewidth=1.8,color='#adadad',zorder=0)
 
