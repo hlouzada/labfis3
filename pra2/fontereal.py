@@ -19,6 +19,7 @@ print(re)
 print(p)
 
 with open("tabelafonte.txt", "w") as out:
+    out.write("\t ".join(["V_pot","V_r","I","Rc","Re","P"])+"\n")
     for i in range(len(vpot)):
         out.write("\t ".join([str(vpot[i]),str(vr[i]),str(cor[i]),str(rc[i]),str(re[i]),str(p[i])]) + "\n")
 """
