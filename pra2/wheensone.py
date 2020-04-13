@@ -47,11 +47,12 @@ else:
             u = round(R4V0.uncertainty, r)
 u = round(R4V0.uncertainty, r)
 
-R4V0 = "({:g} ± {:g})".format(R4V0.mean,u)
-
 print()
 
-print("R_4 for Vg = 0: {0}".format(R4V0))
+print("R_4 for Vg = 0: ({:g} ± {:g})".format(R4V0.mean,u))
+
+u = "{:g}".format(u).split("e")
+R4V0 = "({:g}".format(R4V0.mean)+"\pm "+u[0]+"\cdot 10^"+"{"+u[1]+"})"
 
 plt.plot(r4, result.best_fit,'-',label=r'$(\frac{R_2}{R_1+R_2}-\frac{R_3}{R_3+R_4})\,V$',linewidth=1.8,color='#adadad',zorder=0)
 
