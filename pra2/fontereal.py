@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import lmfit
+from scipy.signal import find_peaks
 from labfis import labfloat
 
 vc, vi = np.loadtxt('fonte').T
@@ -11,86 +11,63 @@ print(vi)
 cor = vi/4.7
 rc = vc/cor
 re = rc + 4.7
-ptot = re*cor**2
+pext = re*cor**2
 
 print(cor)
 print(rc)
 print(re)
-print(ptot)
+print(pext)
 
 with open("tabelafonte.txt", "w") as out:
-    out.write("\t ".join(["Vc","Vi","I","Rc","Re","Ptot"])+"\n")
+    out.write("\t ".join(["Vc","Vi","I","Rc","Re","Pe"])+"\n")
     for i in range(len(vc)):
-        out.write("\t ".join([str(vc[i]),str(vi[i]),str(cor[i]),str(rc[i]),str(re[i]),str(ptot[i])]) + "\n")
-"""
-plt.figue()
+        out.write("\t ".join([str(vc[i]),str(vi[i]),str(cor[i]),str(rc[i]),str(re[i]),str(pext[i])]) + "\n")
 
-plt.plot(r4, result.best_fit,'-',label=r'$(\frac{R_2}{R_1+R_2}-\frac{R_3}{R_3+R_4})\,V$',linewidth=1.8,color='#adadad',zorder=0)
+maxs, _ = find_peaks(pext)
+
+pextm = max([pext[j]for j in maxs])
+
+print(pextm)
+
+ii = np.where(pext == pextm)[0]
+
+ri = np.mean(re[ii])
+
+print(ri)
+
+pdissin = ri*cor**2
+
+ptot = pdissin + pext
+
+putil = rc*cor**2
+efic = putil/ptot
+
 
 plt.rcParams.update({'font.size': 10})
 
-plt.scatter(r4, vg, label='Dados', color='#212121', s=25,zorder=5)
+plt.scatter(re, ptot, label=r'$P_{total}$', marker='D', color='#212121')
+plt.scatter(re, pdissin, label=r'$P_{diss_{int}}$', marker='o', color='#212121')
+plt.scatter(re, putil, label=r'$P_{util}$', marker='^', color='#212121')
+plt.scatter(re, pext, label=r'$P_{diss_{ext}}$', marker='+', color='#212121')
 
-plt.xlabel(r'$R_4\,(\Omega)$',fontsize=10)
-plt.ylabel(r'$V_G\,(V)$',fontsize=10)
-plt.title(r'Ponte de Wheastone',fontsize=15)
+eval("plt.figtext(.665,.176,r'$max(P_{diss_{ext}}) ="+str(pextm)+"\, (\Omega\,A^2) \Rightarrow R_e = R_i = "+str(ri)+"\, \Omega$',fontsize=10,ha='center')")
 
-plt.legend()
-
-plt.savefig('ponte.png')
-plt.show()
-
-
-plt.figue()
-
-plt.plot(r4, result.best_fit,'-',label=r'$(\frac{R_2}{R_1+R_2}-\frac{R_3}{R_3+R_4})\,V$',linewidth=1.8,color='#adadad',zorder=0)
-
-plt.rcParams.update({'font.size': 10})
-
-plt.scatter(r4, vg, label='Dados', color='#212121', s=25,zorder=5)
-
-plt.xlabel(r'$R_4\,(\Omega)$',fontsize=10)
-plt.ylabel(r'$V_G\,(V)$',fontsize=10)
-plt.title(r'Ponte de Wheastone',fontsize=15)
+plt.xlabel(r'$R_e\,(\Omega)$',fontsize=10)
+plt.ylabel(r'$P\,\,(\Omega\,A^2)$',fontsize=10)
+plt.title(r'Potência X Resistência Externa',fontsize=15)
 
 plt.legend()
 
-plt.savefig('ponte.png')
+plt.savefig('fontepots.png')
 plt.show()
 
+plt.scatter(re, efic, label='Dados', color='#212121', linewidth=1.8)
 
-plt.figue()
-
-plt.plot(r4, result.best_fit,'-',label=r'$(\frac{R_2}{R_1+R_2}-\frac{R_3}{R_3+R_4})\,V$',linewidth=1.8,color='#adadad',zorder=0)
-
-plt.rcParams.update({'font.size': 10})
-
-plt.scatter(r4, vg, label='Dados', color='#212121', s=25,zorder=5)
-
-plt.xlabel(r'$R_4\,(\Omega)$',fontsize=10)
-plt.ylabel(r'$V_G\,(V)$',fontsize=10)
-plt.title(r'Ponte de Wheastone',fontsize=15)
+plt.xlabel(r'$R_e\,(\Omega)$',fontsize=10)
+plt.ylabel(r'$\frac{P_{util}}{P_{total}}$',fontsize=10)
+plt.title(r'Eficiência de Trânsferencia de Potência',fontsize=15)
 
 plt.legend()
 
-plt.savefig('ponte.png')
+plt.savefig('fonteeficiencia.png')
 plt.show()
-
-
-plt.figue()
-
-plt.plot(r4, result.best_fit,'-',label=r'$(\frac{R_2}{R_1+R_2}-\frac{R_3}{R_3+R_4})\,V$',linewidth=1.8,color='#adadad',zorder=0)
-
-plt.rcParams.update({'font.size': 10})
-
-plt.scatter(r4, vg, label='Dados', color='#212121', s=25,zorder=5)
-
-plt.xlabel(r'$R_4\,(\Omega)$',fontsize=10)
-plt.ylabel(r'$V_G\,(V)$',fontsize=10)
-plt.title(r'Ponte de Wheastone',fontsize=15)
-
-plt.legend()
-
-plt.savefig('ponte.png')
-plt.show()
-"""
