@@ -3,25 +3,25 @@ import numpy as np
 import lmfit
 from labfis import labfloat
 
-vpot, vr = np.loadtxt('fonte').T
+vc, vi = np.loadtxt('fonte').T
 
-print(vpot)
-print(vr)
+print(vc)
+print(vi)
 
-cor = vr/4.7
-rc = vpot/cor
+cor = vi/4.7
+rc = vc/cor
 re = rc + 4.7
-p = re*cor**2
+ptot = re*cor**2
 
 print(cor)
 print(rc)
 print(re)
-print(p)
+print(ptot)
 
 with open("tabelafonte.txt", "w") as out:
-    out.write("\t ".join(["V_pot","V_r","I","Rc","Re","P"])+"\n")
-    for i in range(len(vpot)):
-        out.write("\t ".join([str(vpot[i]),str(vr[i]),str(cor[i]),str(rc[i]),str(re[i]),str(p[i])]) + "\n")
+    out.write("\t ".join(["Vc","Vi","I","Rc","Re","Ptot"])+"\n")
+    for i in range(len(vc)):
+        out.write("\t ".join([str(vc[i]),str(vi[i]),str(cor[i]),str(rc[i]),str(re[i]),str(ptot[i])]) + "\n")
 """
 plt.figue()
 
