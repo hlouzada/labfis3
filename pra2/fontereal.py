@@ -3,7 +3,11 @@ import numpy as np
 from scipy.signal import find_peaks
 from labfis import labfloat
 
-vc, vi = np.loadtxt('fonte').T
+vc,vce,vi,vie = np.loadtxt('fonte').T
+
+vc = np.array([labfloat(vc[j],vce[j]) for j in range(len(vc))])
+
+vi = np.array([labfloat(vi[j],vie[j]) for j in range(len(vi))])
 
 print(vc)
 print(vi)
@@ -29,9 +33,11 @@ pextm = max([pext[j]for j in maxs])
 
 print(pextm)
 
-ii = np.where(pext == pextm)[0]
+ii = np.where(np.array([val.mean for val in pext]) == pextm.mean)[0]
 
-ri = np.mean(re[ii])
+print(ii)
+
+ri = re[ii].tolist()
 
 print(ri)
 
@@ -42,6 +48,10 @@ ptot = pdissin + pext
 putil = rc*cor**2
 efic = putil/ptot
 
+print(pdissin)
+print(ptot)
+print(putil)
+print(efic)
 
 plt.rcParams.update({'font.size': 10})
 
@@ -50,7 +60,7 @@ plt.scatter(re, pdissin, label=r'$P_{diss_{int}}$', marker='o', color='#212121')
 plt.scatter(re, putil, label=r'$P_{util}$', marker='^', color='#212121')
 plt.scatter(re, pext, label=r'$P_{diss_{ext}}$', marker='+', color='#212121')
 
-eval("plt.figtext(.665,.176,r'$max(P_{diss_{ext}}) ="+str(pextm)+"\, (\Omega\,A^2) \Rightarrow R_e = R_i = "+str(ri)+"\, \Omega$',fontsize=10,ha='center')")
+eval("plt.figtext(.655,.176,r'$max(P_{diss_{ext}}) ="+pextm.tex()+"\, (\Omega\,A^2) \Rightarrow R_e = R_i = "+ri[0].tex()+"\, \Omega$',fontsize=10,ha='center')")
 
 plt.xlabel(r'$R_e\,(\Omega)$',fontsize=10)
 plt.ylabel(r'$P\,\,(\Omega\,A^2)$',fontsize=10)
