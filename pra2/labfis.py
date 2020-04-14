@@ -38,6 +38,13 @@ class labfloat:
             m, u = self.format()
             return("({:g} ± {:g})".format(m, u))
 
+    def __repr__(self):
+        if self.uncertainty == 0:
+            return("{:g}".format(self.mean))
+        else:
+            m, u = self.format()
+            return("({:g} ± {:g})".format(m, u))
+
     def __pos__(self):
         return self
 
