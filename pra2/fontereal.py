@@ -60,7 +60,8 @@ plt.scatter(re, pdissin, label=r'$P_{diss_{int}}$', marker='o', color='#212121')
 plt.scatter(re, putil, label=r'$P_{util}$', marker='^', color='#212121')
 plt.scatter(re, pext, label=r'$P_{diss_{ext}}$', marker='+', color='#212121')
 
-eval("plt.figtext(.655,.176,r'$max(P_{diss_{ext}}) ="+pextm.tex()+"\, (\Omega\,A^2) \Rightarrow R_e = R_i = "+ri[0].tex()+"\, \Omega$',fontsize=10,ha='center')")
+eval("plt.figtext(.495,.838,r'$max(P_{diss_{ext}}) ="+pextm.tex(2,0)+"\, \Omega\,A^2$',fontsize=10,ha='center')")
+eval("plt.figtext(.495,.800,r'$\Rightarrow R_e = R_i = "+ri[0].tex()+"\, \Omega$',fontsize=10,ha='center')")
 
 plt.xlabel(r'$R_e\,(\Omega)$',fontsize=10)
 plt.ylabel(r'$P\,\,(\Omega\,A^2)$',fontsize=10)
@@ -74,7 +75,7 @@ plt.show()
 plt.scatter(re, efic, label='Dados', color='#212121', linewidth=1.8)
 
 plt.xlabel(r'$R_e\,(\Omega)$',fontsize=10)
-plt.ylabel(r'$\frac{P_{util}}{P_{total}}$',fontsize=10)
+plt.ylabel(r'$P_{util}\,\,/\,\,P_{total}$',fontsize=10)
 plt.title(r'Eficiência de Trânsferencia de Potência',fontsize=15)
 
 plt.legend()
