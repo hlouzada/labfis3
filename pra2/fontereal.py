@@ -31,17 +31,27 @@ maxs, _ = find_peaks(pext)
 
 pextm = max([pext[j]for j in maxs])
 
-print(pextm)
+print()
+print("max(P_e) = {0}".format(pextm))
 
 ii = np.where(np.array([val.mean for val in pext]) == pextm.mean)[0]
 
 print(ii)
 
-ri = re[ii].tolist()
+ri = re[ii].tolist()[0]
 
-print(ri)
+print()
+print("R_i for max(P_e): {0}".format(ri))
 
-pdissin = ri*cor**2
+ren = re/(re+ri)
+print(ren)
+
+with open("tabelarendimento.txt", "w") as out:
+    out.write("\t ".join(["Re","Ri","Efi"])+"\n")
+    for i in range(len(re)):
+        out.write("\t ".join([str(re[i]),str(ri),str(ren[i])]) + "\n")
+
+pdissin = (cor**2)*ri
 
 ptot = pdissin + pext
 
@@ -53,6 +63,8 @@ print(ptot)
 print(putil)
 print(efic)
 
+plt.figure()
+
 plt.rcParams.update({'font.size': 10})
 
 plt.scatter(re, ptot, label=r'$P_{total}$', marker='D', color='#212121')
@@ -61,7 +73,7 @@ plt.scatter(re, putil, label=r'$P_{util}$', marker='^', color='#212121')
 plt.scatter(re, pext, label=r'$P_{diss_{ext}}$', marker='+', color='#212121')
 
 eval("plt.figtext(.495,.838,r'$max(P_{diss_{ext}}) ="+pextm.tex(2,0)+"\, \Omega\,A^2$',fontsize=10,ha='center')")
-eval("plt.figtext(.495,.800,r'$\Rightarrow R_e = R_i = "+ri[0].tex()+"\, \Omega$',fontsize=10,ha='center')")
+eval("plt.figtext(.495,.800,r'$\Rightarrow R_e = R_i = "+ri.tex()+"\, \Omega$',fontsize=10,ha='center')")
 
 plt.xlabel(r'$R_e\,(\Omega)$',fontsize=10)
 plt.ylabel(r'$P\,\,(\Omega\,A^2)$',fontsize=10)
@@ -71,6 +83,11 @@ plt.legend()
 
 plt.savefig('fontepots.png')
 plt.show()
+
+
+plt.figure()
+
+plt.rcParams.update({'font.size': 10})
 
 plt.scatter(re, efic, label='Dados', color='#212121', linewidth=1.8)
 
