@@ -12,7 +12,7 @@ print(vc)
 print(t)
 
 vo = 2.2
-tal = 106e-6*97e3
+tal = 100e-6*97e3
 
 capacitor = lambda t,Vo,Tal: Vo*(1-np.exp(-t/Tal))
 cmodel = lmfit.Model(capacitor)
@@ -81,7 +81,7 @@ eval("plt.figtext(.312,.145,r'$C = "+C.tex(2,0)+"\,F$',fontsize=10,ha='center')"
 
 plt.xlabel(r'$t\,(s)$',fontsize=10)
 plt.ylabel(r'$V_o - V_c\,(V)$',fontsize=10)
-plt.title(r'Descarga do Capacitor',fontsize=15)
+plt.title(r'Carga do Capacitor',fontsize=15)
 plt.legend()
 
 plt.savefig('capacitorlog.png')

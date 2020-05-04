@@ -38,6 +38,8 @@ Qf = qf(c1,c2,vf)
 Ui = ui(c1,vi)
 Uf = uf(c1,c2,vf)
 
+#print([(Qi[i][0],Qi[i][1]) for i in range(len(Qi))])
+
 with open("tabelacapacitor.txt", "w") as out:
     out.write("\t ".join(["Qi","Ui","Qf","Uf"])+"\n")
     for i in range(len(Qi)):
@@ -63,8 +65,8 @@ plt.plot(c2c1, uiuf, 'o', label='Dados', color='#212121', markersize=5, zorder=5
 
 #eval("plt.figtext(.312,.145,r'$C = "+C.tex(2,0)+"\,F$',fontsize=10,ha='center')")
 
-plt.xlabel(r'$C_1\,/\,C_2$',fontsize=10)
-plt.ylabel(r'$U_1\,/\,U_2$',fontsize=10)
+plt.xlabel(r'$C_2\,/\,C_1$',fontsize=10)
+plt.ylabel(r'$U_i\,/\,U_f$',fontsize=10)
 plt.title(r'Conservação do Capacitor',fontsize=15)
 plt.legend()
 
