@@ -1,6 +1,7 @@
 import numpy as np
 from labfis import labfloat
 import matplotlib.pyplot as plt
+import lmfit
 
 vo = labfloat(9,1)
 
@@ -56,14 +57,38 @@ print("Qf: {0}".format(Qf),"Uf: {0}".format(Uf),sep='\n')
 uiuf = Ui/Uf
 c2c1 = c2/c1
 
+uiuf = [float(x) for x in uiuf]
+c2c1 = [float(x) for x in c2c1]
+
+print(uiuf,c2c1)
+
+relacao = lambda x,a: (1+x)*a**2
+cmodel = lmfit.Model(relacao)
+params = cmodel.make_params(a=0.99)
+result = cmodel.fit(uiuf, params, x=c2c1)
+res = result.fit_report()
+
+print(res)
+
+coefs = res[res.find("[[Variables]]")+13:res.find("[[Correlations]]")].split("\n")[1:3]
+coefs = [coef.split() for coef in coefs]
+
+QIQF = labfloat(coefs[0][1],coefs[0][3])
+
+print("Qi/Qf = {0}".format(QIQF))
+
+xs = np.linspace(1.5,34,200)
+ys = np.array([relacao(xs[j],float(coefs[0][1])) for j in range(len(xs))])
+
 plt.figure()
+plt.axes()
 
 plt.rcParams.update({'font.size': 10})
 
-#plt.plot(xs, 10**ys, '-',label=r'$V_o(1-e^{\frac{-t}{RC}})$',linewidth=1.8,color='#adadad',zorder=0)
+plt.plot(xs, ys, '-',label=r'$(\frac{Q_i}{Q_f})^2(1+\frac{C_2}{C_1})$',linewidth=1.8,color='#adadad',zorder=0)
 plt.plot(c2c1, uiuf, 'o', label='Dados', color='#212121', markersize=5, zorder=5)
 
-#eval("plt.figtext(.312,.145,r'$C = "+C.tex(2,0)+"\,F$',fontsize=10,ha='center')")
+eval("plt.figtext(.752,.185,r'$\\frac{Q_i}{Q_f} = "+QIQF.tex()+"$',fontsize=10,ha='center')")
 
 plt.xlabel(r'$C_2\,/\,C_1$',fontsize=10)
 plt.ylabel(r'$U_i\,/\,U_f$',fontsize=10)

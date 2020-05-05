@@ -12,7 +12,7 @@ print(vc)
 print(t)
 
 vo = 2.2
-tal = 100e-6*97e3
+tal = 106e-6*97e3
 
 capacitor = lambda t,Vo,Tal: Vo*(1-np.exp(-t/Tal))
 cmodel = lmfit.Model(capacitor)
@@ -28,6 +28,13 @@ coefs = [coef.split() for coef in coefs]
 xs = np.linspace(1.5,34,200)
 ys = np.array([capacitor(xs[j],float(coefs[0][1]),float(coefs[1][1])) for j in range(len(xs))])
 
+Tal = labfloat(coefs[1][1],coefs[1][3])
+
+R = labfloat(97e3,1e3)
+
+C = Tal / R
+
+print("C = {0}".format(C))
 
 plt.figure()
 
@@ -64,11 +71,11 @@ coefs = [coef.split() for coef in coefs]
 
 Tal = labfloat(coefs[1][1],coefs[1][3])
 
-R = labfloat(97e3,1e3)
+# R = labfloat(97e3,1e3)
 
-C = Tal / R
+# C = Tal / R
 
-print("C = {0}".format(C))
+# print("C = {0}".format(C))
 
 xs = np.linspace(1.5,34,200)
 ys = np.array([capacitor(xs[j],float(coefs[0][1]),float(coefs[1][1])) for j in range(len(xs))])
