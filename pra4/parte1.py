@@ -12,7 +12,9 @@ print("V:", v)
 print("I:", i)
 
 mo = 4*np.pi*1e-7
-n = 760/0.148
+n = 760/labfloat(0.148,0.001)
+
+print("n:",n)
 
 vh = v - 9.4e-3
 b = mo*i*n
@@ -31,7 +33,7 @@ x = [float(x) for x in b]
 
 campo = lambda x,alpha,beta: alpha*x-beta
 cmodel = lmfit.Model(campo)
-params = cmodel.make_params(alpha=np.mean(v)[0]/(mo*n*np.mean(i)[0]),beta=9.4e-3)
+params = cmodel.make_params(alpha=np.mean(v)[0]/(mo*n[0]*np.mean(i)[0]),beta=9.4e-3)
 result = cmodel.fit(y, params, x=x)
 res = result.fit_report()
 
