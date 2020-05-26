@@ -43,10 +43,10 @@ plt.plot(r, b, 'o', label='Dados', color='#212121', markersize=5, zorder=5)
 
 plt.xlabel(r'$r\,(m)$',fontsize=10)
 plt.ylabel(r'$B\,(T)$',fontsize=10)
-plt.title(r'Sonda de Hall',fontsize=15)
+plt.title(r'Campo Magnético de um Fio Retlíneio',fontsize=15)
 plt.legend()
 
-plt.savefig('hall.png')
+plt.savefig('campofioretlinio.png')
 plt.show()
 
 
