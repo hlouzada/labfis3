@@ -54,12 +54,12 @@ plt.figure()
 
 plt.rcParams.update({'font.size': 10})
 
-plt.plot(xs, ys,'-',label=r'$\frac{\mu_o IN}{2\pi}(\frac{1}{r})$',linewidth=1.8,color='#adadad',zorder=0)
+plt.plot(xs, ys,'-',label=r'$\frac{\mu_o I a^2}{2}(\frac{1}{(((z-a)/2)^2+a^2)^{3/2}}-\frac{1}{(((z+a)/2)^2+a^2)^{3/2}})$',linewidth=1.8,color='#adadad',zorder=0)
 plt.plot(z, b, 'o', label='Dados', color='#212121', markersize=5, zorder=5)
 
 plt.xlabel(r'$z\,(m)$',fontsize=10)
 plt.ylabel(r'$B\,(T)$',fontsize=10)
-plt.title(r'Campo Magnético de um Fio Retlíneio',fontsize=15)
+plt.title(r'Campo Magnético de Helmholtz',fontsize=15)
 plt.legend()
 
 plt.savefig('helmholtz.png')
