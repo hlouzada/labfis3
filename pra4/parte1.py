@@ -31,9 +31,9 @@ with open("tabelahall.txt", "w") as out:
 y = [float(y) for y in vh]
 x = [float(x) for x in b]
 
-campo = lambda x,alpha,beta: alpha*x-beta
+campo = lambda x,alpha,beta: alpha*x+beta
 cmodel = lmfit.Model(campo)
-params = cmodel.make_params(alpha=np.mean(v)[0]/(mo*n[0]*np.mean(i)[0]),beta=9.4e-3)
+params = cmodel.make_params(alpha=np.mean(v)[0]/(mo*n[0]*np.mean(i)[0]),beta=-9.4e-3)
 result = cmodel.fit(y, params, x=x)
 res = result.fit_report()
 
@@ -46,6 +46,9 @@ xs = np.linspace(0,0.01,200)
 ys = np.array([campo(xs[j],float(coefs[0][1]),float(coefs[1][1])) for j in range(len(xs))])
 
 calibracao = labfloat(coefs[0][1],coefs[0][3])
+
+with open("calibracao.txt", "w") as out:
+    out.write(str(calibracao[0]) + "\t " + str(calibracao[1]))
 
 print("Calibração da sonda de Hall = {0}".format(calibracao))
 

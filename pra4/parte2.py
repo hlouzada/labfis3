@@ -4,6 +4,9 @@ from labfis import labfloat
 import lmfit
 
 dados = np.loadtxt('hallterminais')
+calibracao = np.loadtxt('calibracao.txt')
+
+calibracao = labfloat(*calibracao)
 
 r = np.array([labfloat(k[0],k[1]) for k in dados])
 vh = np.array([labfloat(k[2],k[3]) for k in dados])
@@ -13,9 +16,17 @@ print("Vh:", vh)
 
 mo = 4*np.pi*1e-7
 
-b = mo*1*30/(2*np.pi)*(1/r)
+b = vh/calibracao
 
 print("B:", b)
+
+
+
+with open("tabelahall.txt", "w") as out:
+    out.write("\t ".join(["r","Vh","B"])+"\n")
+    for j in range(len(r)):
+        out.write("\t ".join([str(r[j]),str(vh[j]),str(b[j])]) + "\n")
+
 
 y = [float(y) for y in b]
 x = [float(x) for x in r]
