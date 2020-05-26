@@ -20,8 +20,8 @@ b = vh/calibracao
 
 print("B:", b)
 
-i = 1
-a = 0.14
+i = labfloat(1,1)
+a = labfloat(0.14,0.01)
 N = 130
 
 with open("tabelahelmholtz.txt", "w") as out:
@@ -35,7 +35,7 @@ x = [float(x) for x in z]
 
 campo = lambda z,a,m: ((m*a**2)/2)*(1/((z-a/2)**2+a**2)**(3/2)+1/((z+a/2)**2+a**2)**(3/2))
 cmodel = lmfit.Model(campo)
-params = cmodel.make_params(m=mo*i,a=a)
+params = cmodel.make_params(m=float(mo*i),a=a[0])
 result = cmodel.fit(y, params, z=x)
 res = result.fit_report()
 
@@ -43,6 +43,9 @@ print(res)
 
 coefs = res[res.find("[[Variables]]")+13:res.find("[[Correlations]]")].split("\n")[1:3]
 coefs = [coef.split() for coef in coefs]
+
+print("B(z=0)",campo(0,labfloat(coefs[0][1],coefs[0][3]),labfloat(coefs[1][1],coefs[1][3])))
+print(8/5**(3/2)*(mo*N*i/a))
 
 xs = np.linspace(0,0.2,200)
 ys = np.array([campo(xs[j],float(coefs[0][1]),float(coefs[1][1])) for j in range(len(xs))])

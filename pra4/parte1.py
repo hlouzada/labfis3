@@ -16,7 +16,7 @@ n = 760/labfloat(0.148,0.001)
 
 print("n:",n)
 
-vh = v - 9.4e-3
+vh = v - labfloat(9.4e-3,0.1e-3)
 b = mo*i*n
 
 print("Vh:", vh)
