@@ -31,9 +31,9 @@ with open("tabelahall.txt", "w") as out:
 y = [float(y) for y in vh]
 x = [float(x) for x in b]
 
-campo = lambda x,alpha,beta: alpha*x+beta
+campo = lambda x,alpha,beta: alpha*x - beta
 cmodel = lmfit.Model(campo)
-params = cmodel.make_params(alpha=np.mean(v)[0]/(mo*n[0]*np.mean(i)[0]),beta=-9.4e-3)
+params = cmodel.make_params(alpha=np.mean(v)[0]/(mo*n[0]*np.mean(i)[0]),beta=9.4e-3)
 result = cmodel.fit(y, params, x=x)
 res = result.fit_report()
 
@@ -56,7 +56,7 @@ plt.figure()
 
 plt.rcParams.update({'font.size': 10})
 
-plt.plot(xs, ys,'-',label=r'$\alpha x + \beta$',linewidth=1.8,color='#adadad',zorder=0)
+plt.plot(xs, ys,'-',label=r'$\alpha x - \beta$',linewidth=1.8,color='#adadad',zorder=0)
 plt.plot(b, vh, 'o', label='Dados', color='#212121', markersize=5, zorder=5)
 
 eval("plt.figtext(.707,.145,r'$\\alpha = "+calibracao.tex()+"\,VT^{-1}$',fontsize=10,ha='center')")
