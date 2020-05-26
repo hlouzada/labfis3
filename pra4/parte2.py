@@ -22,7 +22,7 @@ print("B:", b)
 
 
 
-with open("tabelahall.txt", "w") as out:
+with open("tabelafiocampo.txt", "w") as out:
     out.write("\t ".join(["r","Vh","B"])+"\n")
     for j in range(len(r)):
         out.write("\t ".join([str(r[j]),str(vh[j]),str(b[j])]) + "\n")
