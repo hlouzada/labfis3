@@ -60,7 +60,7 @@ eval("plt.figtext(.707,.145,r'$R = "+R_eq.tex()+"\,\\Omega$',fontsize=10,ha='cen
 
 plt.ylabel(r'$V\,(\Omega A)$',fontsize=10)
 plt.xlabel(r'$I\,(A)$',fontsize=10)
-plt.title(r'Tensão Induzida',fontsize=15)
+plt.title(r'Impedância Resistiva',fontsize=15)
 plt.legend()
 
 plt.savefig('parte2-grafico.png')
